@@ -27,14 +27,14 @@ export default function Sidebar() {
   });
 
   return (
-    <div className="glass-panel" style={{ width: '280px', height: '100vh', borderRadius: '0', display: 'flex', flexDirection: 'column', borderTop: 'none', borderBottom: 'none', borderLeft: 'none' }}>
-      <div style={{ padding: '20px 16px', marginBottom: '32px' }}>
+    <div className="glass-panel sidebar-glass" style={{ width: '280px', height: '100vh', borderRadius: '0', display: 'flex', flexDirection: 'column', borderTop: 'none', borderBottom: 'none', borderLeft: 'none' }}>
+      <div className="sidebar-header" style={{ padding: '20px 16px', marginBottom: '32px' }}>
         <h2 style={{ color: 'white', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Box color="var(--accent)" /> Nexus Logistics
         </h2>
       </div>
 
-      <nav style={{ flex: 1, padding: '0 16px', overflowY: 'auto' }}>
+      <nav className="sidebar-nav" style={{ flex: 1, padding: '0 16px', overflowY: 'auto' }}>
         {/* Dashboard is now visible to everyone */}
         <NavLink to="/dashboard" style={navStyles} end>
           <LayoutDashboard size={20} /> Dashboard
@@ -69,13 +69,13 @@ export default function Sidebar() {
         )}
       </nav>
 
-      <div style={{ padding: '24px 16px', borderTop: '1px solid var(--border-color)' }}>
+      <div className="sidebar-footer" style={{ padding: '24px 16px', borderTop: '1px solid var(--border-color)' }}>
         <div style={{ marginBottom: '16px', color: 'var(--text-secondary)', fontSize: '14px' }}>
           Logged in as: <strong style={{color: 'white'}}>{username}</strong>
           <div style={{fontSize: '12px', marginTop: '4px', opacity: 0.7}}>{role.replace('_', ' ')}</div>
         </div>
         <button onClick={handleLogout} className="btn-danger" style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-          <LogOut size={18} /> Sign Out
+          <LogOut size={18} /> <span>Sign Out</span>
         </button>
       </div>
     </div>

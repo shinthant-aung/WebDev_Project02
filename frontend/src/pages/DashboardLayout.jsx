@@ -33,11 +33,11 @@ export default function DashboardLayout() {
       <Sidebar />
       <main className="main-content" style={{ display: 'flex', flexDirection: 'column', padding: 0 }}>
         {/* Main Content Area */}
-        <div style={{ flex: 1, padding: '32px 40px 40px 40px', overflowY: 'auto', position: 'relative' }}>
+        <div style={{ flex: 1, padding: '32px 40px 40px 40px', overflowY: 'auto' }}>
           
-          {/* Universal Search (Absolutely positioned to match H1 level) */}
+          {/* Universal Search (Floated to match H1 safely) */}
           {path !== '/dashboard' && (
-            <div style={{ position: 'absolute', top: '32px', right: '40px', width: '300px', zIndex: 10 }}>
+            <div className="search-wrapper" style={{ float: 'right', width: '300px', position: 'relative', zIndex: 10 }}>
               <Search size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} />
               <input 
                 type="text" 
