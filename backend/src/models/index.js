@@ -41,6 +41,8 @@ const CustomerSchema = new mongoose.Schema({
 const ShipmentSchema = new mongoose.Schema({
   customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
   warehouseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Warehouse' },
+  productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+  quantity: { type: Number, default: 1 },
   status: { type: String, enum: ['PENDING', 'PROCESSING', 'IN_TRANSIT', 'DELIVERED', 'CANCELLED'], default: 'PENDING' },
 }, { timestamps: true });
 

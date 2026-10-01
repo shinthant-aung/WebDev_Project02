@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Box, Warehouse, Truck, Layers, Users, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Box, Warehouse, Truck, Layers, Users, AlertTriangle, CheckCircle, Clock, XCircle } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const fetchStats = async () => {
@@ -46,17 +46,38 @@ export default function Dashboard() {
     refetchInterval: 5000
   });
 
-  const stats = data?.data || { products: 0, warehouses: 0, customers: 0, totalStock: 0, lowStockCount: 0, pendingShipments: 0, inTransitShipments: 0, deliveredShipments: 0, chartData: [] };
+  const stats = data?.data || {
+    products: 0,
+    warehouses: 0,
+    customers: 0,
+    totalStock: 0,
+    lowStockCount: 0,
+    pendingShipments: 0,
+    processingShipments: 0,
+    inTransitShipments: 0,
+    deliveredShipments: 0,
+    cancelledShipments: 0,
+    chartData: []
+  };
 
   if (isLoading) return <div style={{ padding: '32px' }}>Loading dashboard data...</div>;
 
   const renderAdminDashboard = () => (
     <>
-      <div className="stats-container">
+      <div className="stats-container" style={{ marginBottom: '24px' }}>
         <StatCard title="Total Products" value={stats.products} icon={<Box size={32} />} color="#3b82f6" />
         <StatCard title="Active Warehouses" value={stats.warehouses} icon={<Warehouse size={32} />} color="#8b5cf6" />
-        <StatCard title="Pending Shipments" value={stats.pendingShipments} icon={<Truck size={32} />} color="#f59e0b" />
+        <StatCard title="Total Customers" value={stats.customers} icon={<Users size={32} />} color="#06b6d4" />
       </div>
+
+      <div className="stats-container" style={{ marginBottom: '32px' }}>
+        <StatCard title="Pending" value={stats.pendingShipments ?? stats.statusCounts?.PENDING ?? 0} icon={<Truck size={32} />} color="#f59e0b" />
+        <StatCard title="Processing" value={stats.processingShipments ?? stats.statusCounts?.PROCESSING ?? 0} icon={<Clock size={32} />} color="#3b82f6" />
+        <StatCard title="In Transit" value={stats.inTransitShipments ?? stats.statusCounts?.IN_TRANSIT ?? 0} icon={<Truck size={32} />} color="#8b5cf6" />
+        <StatCard title="Delivered" value={stats.deliveredShipments ?? stats.statusCounts?.DELIVERED ?? 0} icon={<CheckCircle size={32} />} color="#22c55e" />
+        <StatCard title="Cancelled" value={stats.cancelledShipments ?? stats.statusCounts?.CANCELLED ?? 0} icon={<XCircle size={32} />} color="#ef4444" />
+      </div>
+
       <div className="glass-panel">
         <h2 style={{ marginBottom: '24px' }}>Live Shipment Distribution</h2>
         <div style={{ height: '350px', width: '100%' }}>
@@ -73,6 +94,7 @@ export default function Dashboard() {
       </div>
     </>
   );
+
 
   const renderWarehouseDashboard = () => (
     <>

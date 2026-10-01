@@ -9,6 +9,7 @@ export async function GET() {
     const shipments = await Shipment.find({})
       .populate('warehouseId', 'name')
       .populate('customerId', 'name email')
+      .populate('productId', 'name sku price')
       .sort({ createdAt: -1 });
     return NextResponse.json({ success: true, data: shipments });
   } catch (error) {
