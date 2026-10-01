@@ -21,14 +21,14 @@ const StatCard = ({ title, value, icon, color }) => (
 );
 
 const StatusIndicator = ({ error }) => (
-  <div style={{ 
-    display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 16px', 
-    backgroundColor: 'var(--bg-card)', borderRadius: '20px', 
+  <div style={{
+    display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 16px',
+    backgroundColor: 'var(--bg-card)', borderRadius: '20px',
     border: `1px solid ${error ? 'var(--danger)' : 'var(--success)'}`,
     boxShadow: `0 0 10px ${error ? 'rgba(239, 68, 68, 0.2)' : 'rgba(34, 197, 94, 0.2)'}`
   }}>
-    <div style={{ 
-      width: '10px', height: '10px', borderRadius: '50%', 
+    <div style={{
+      width: '10px', height: '10px', borderRadius: '50%',
       backgroundColor: error ? 'var(--danger)' : 'var(--success)',
       boxShadow: `0 0 8px ${error ? 'var(--danger)' : 'var(--success)'}`
     }}></div>
@@ -52,7 +52,7 @@ export default function Dashboard() {
 
   const renderAdminDashboard = () => (
     <>
-      <div style={{ display: 'flex', gap: '24px', marginBottom: '40px' }}>
+      <div className="stats-container">
         <StatCard title="Total Products" value={stats.products} icon={<Box size={32} />} color="#3b82f6" />
         <StatCard title="Active Warehouses" value={stats.warehouses} icon={<Warehouse size={32} />} color="#8b5cf6" />
         <StatCard title="Pending Shipments" value={stats.pendingShipments} icon={<Truck size={32} />} color="#f59e0b" />
@@ -61,12 +61,12 @@ export default function Dashboard() {
         <h2 style={{ marginBottom: '24px' }}>Live Shipment Distribution</h2>
         <div style={{ height: '350px', width: '100%' }}>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={stats.chartData}>
+            <BarChart data={stats.chartData} margin={{ top: 20, right: 20, left: 0, bottom: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
-              <XAxis dataKey="name" stroke="#94a3b8" tick={{ fill: '#94a3b8' }} axisLine={false} tickLine={false} />
-              <YAxis stroke="#94a3b8" tick={{ fill: '#94a3b8' }} axisLine={false} tickLine={false} allowDecimals={false} />
+              <XAxis dataKey="name" height={60} stroke="#94a3b8" tick={{ fill: '#94a3b8', fontSize: 11 }} interval={0} angle={-45} textAnchor="end" axisLine={false} tickLine={false} />
+              <YAxis width={30} stroke="#94a3b8" tick={{ fill: '#94a3b8' }} axisLine={false} tickLine={false} allowDecimals={false} tickMargin={8} />
               <Tooltip cursor={{ fill: 'rgba(255,255,255,0.05)' }} contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#f8fafc' }} itemStyle={{ color: '#3b82f6', fontWeight: 'bold' }} />
-              <Bar dataKey="count" name="Total Shipments" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={40} />
+              <Bar dataKey="count" name="Total Shipments" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={50} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -76,7 +76,7 @@ export default function Dashboard() {
 
   const renderWarehouseDashboard = () => (
     <>
-      <div style={{ display: 'flex', gap: '24px', marginBottom: '40px' }}>
+      <div className="stats-container">
         <StatCard title="Total Units in Stock" value={stats.totalStock} icon={<Layers size={32} />} color="#3b82f6" />
         <StatCard title="Unique Products" value={stats.products} icon={<Box size={32} />} color="#8b5cf6" />
         <StatCard title="Low Stock Alerts (<50)" value={stats.lowStockCount} icon={<AlertTriangle size={32} />} color={stats.lowStockCount > 0 ? "#ef4444" : "#22c55e"} />
@@ -84,7 +84,7 @@ export default function Dashboard() {
       <div className="glass-panel">
         <h2 style={{ marginBottom: '16px' }}>Warehouse Operations Overview</h2>
         <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-          Welcome to the Warehouse Control Center. You are currently managing {stats.totalStock} units of inventory across our facilities. 
+          Welcome to the Warehouse Control Center. You are currently managing {stats.totalStock} units of inventory across our facilities.
           {stats.lowStockCount > 0 ? ` Please review the ${stats.lowStockCount} items that are running low on stock.` : ' All inventory levels are healthy.'}
           Navigate to the Products or Inventory tabs on the left to add new stock or manage catalog details.
         </p>
@@ -94,7 +94,7 @@ export default function Dashboard() {
 
   const renderLogisticsDashboard = () => (
     <>
-      <div style={{ display: 'flex', gap: '24px', marginBottom: '40px' }}>
+      <div className="stats-container">
         <StatCard title="Action Required (Pending)" value={stats.pendingShipments} icon={<AlertTriangle size={32} />} color="#ef4444" />
         <StatCard title="Currently In Transit" value={stats.inTransitShipments} icon={<Truck size={32} />} color="#f59e0b" />
         <StatCard title="Successfully Delivered" value={stats.deliveredShipments} icon={<CheckCircle size={32} />} color="#22c55e" />
@@ -102,7 +102,7 @@ export default function Dashboard() {
       <div className="glass-panel" style={{ marginBottom: '24px' }}>
         <h2 style={{ marginBottom: '16px' }}>Logistics & Delivery Overview</h2>
         <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-          Welcome to the Logistics Control Center. You currently have {stats.pendingShipments} shipments awaiting processing and {stats.inTransitShipments} shipments on the road. 
+          Welcome to the Logistics Control Center. You currently have {stats.pendingShipments} shipments awaiting processing and {stats.inTransitShipments} shipments on the road.
           Use the Shipments tab to update delivery statuses in real-time, or the Customers tab to manage our {stats.customers} active client profiles.
         </p>
       </div>
@@ -111,7 +111,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
+      <div className="dashboard-header">
         <div>
           <h1 style={{ marginBottom: '8px' }}>
             {role === 'ADMIN' ? 'Executive Overview' : role === 'WAREHOUSE_STAFF' ? 'Warehouse Hub' : 'Logistics Hub'}

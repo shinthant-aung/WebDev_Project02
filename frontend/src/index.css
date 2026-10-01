@@ -95,6 +95,21 @@ body {
   overflow-y: auto;
 }
 
+/* Dashboard Specific Layout */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
 /* --- Responsive Styles --- */
 
 @media (max-width: 1024px) {
@@ -104,6 +119,12 @@ body {
 }
 
 @media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column !important;
+    gap: 16px;
+    margin-bottom: 24px !important;
+  }
+  
   .app-container {
     flex-direction: column;
     padding-top: 72px; /* Space for top header */
